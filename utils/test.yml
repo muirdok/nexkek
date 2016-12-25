@@ -1,0 +1,13 @@
+---
+- hosts:
+   - linux
+   - linuxmix
+   - localio
+  user: root
+  gather_facts: no
+  vars_files:
+   - vdbvars.yml
+  tasks:
+   - name: Configure selinux
+     lineinfile: dest=/etc/sysconfig/selinux line="SELINUX=disabled"
+

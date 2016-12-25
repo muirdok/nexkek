@@ -1,0 +1,17 @@
+---
+- hosts:
+#   - linux
+   - centos6
+   - centos7
+   - linuxmix
+#   - centosxen
+   - localio
+  user: root
+  gather_facts: no
+  vars_files: 
+   - ../vdbvars.yml
+  tasks:
+   - name: KILL JAVA
+     command: pkill -HUP java
+     ignore_errors: yes
+

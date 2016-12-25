@@ -1,0 +1,14 @@
+---
+- hosts:
+   - localio 
+  user: root
+  gather_facts: no
+  vars_files: 
+   - ../vdbvars.yml
+  tasks:
+   - name: TAIL log NFS
+     command: tail -20 /root/output2/logfile.html
+     register: tail
+     ignore_errors: yes
+   - debug: var=tail.stdout_lines
+

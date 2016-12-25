@@ -1,0 +1,17 @@
+- name: install the latest version of unzip
+  yum: name=unzip state=latest
+- name: install the latest version of java
+  yum: name=java-1.7.0-openjdk state=latest
+- name: install the latest version of csh
+  yum: name=csh state=latest
+- name: install the latest version of nfs
+  yum: name=nfs-utils state=latest
+- name: install the latest version of nfs
+  yum: name=nfs-utils-lib state=latest
+- name: install the latest version of nfs
+  yum: name=rpcbind state=latest
+- name: check rpcbind
+  service: name=rpcbind state=started
+
+
+

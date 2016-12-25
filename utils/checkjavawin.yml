@@ -1,0 +1,19 @@
+---
+- hosts:
+   - win2012
+   - win2008
+   - win-xen
+  user: root
+  gather_facts: no
+  vars_files: 
+   - ../vdbvars.yml
+  tasks:
+   - name: check java
+     shell: "ps -W | grep java"
+     register: tail
+     ignore_errors: yes
+   - debug: var=tail.stdout_lines
+
+
+
+

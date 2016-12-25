@@ -1,0 +1,156 @@
+---
+# TAGS:
+# setup - 
+# conf  - 
+# run   -
+# kill  - 
+# clear -
+# teardown -
+#
+- hosts:
+   - linux
+  user: root
+  gather_facts: no
+  vars_files:
+   - group_vars/all.yml
+  tasks:
+# Kill all JAVA Proccess
+  - name: Kill all java proccess
+    command: pkill -HUP java
+    ignore_errors: yes
+    tags:
+      - kill
+      - teardown
+# Clear setup tasks
+  - name: Umount share (NFS) shell fsload
+    shell: umount -f -l /root/VDBench/fsload
+    ignore_errors: yes
+    tags:
+      - clear
+      - teardown
+  - name: Umount share (CIFS) shell fsload
+    shell: umount -f -l /root/VDBench/fsload2
+    ignore_errors: yes
+    tags:
+      - clear
+      - teardown
+  - name: Umount all others shares 
+    shell: umount -a
+    ignore_errors: yes
+    tags:
+      - clear
+      - teardown
+  - name: Delete the vdbench folder
+    file: path="{{vdpath}}" state=absent mode=0777
+    ignore_errors: yes
+    tags:
+      - clear
+      - teardown
+  - name: Remove entry from fstab (CIFS)
+    mount: fstype="cifs"
+           opts="user=smb,pass=nexenta"
+           src="//{{vip2}}/{{mixcifs}}{{inventory_hostname}}"
+           name="{{vdpath}}fsload2"
+           state="absent"
+    ignore_errors: yes
+    tags:
+      - clear
+      - teardown
+# Setup tasks
+  - name: install the latest version of unzip
+    yum: name=unzip state=latest
+    tags:
+      - setup
+      - all
+  - name: install the latest version of java
+    yum: name=java-1.7.0-openjdk state=latest
+    tags:
+      - setup
+      - all
+  - name: install the latest version of csh
+    yum: name=csh state=latest
+    tags:
+      - setup
+      - all
+  - name: install the latest version of nfs
+    yum: name=nfs-utils state=latest
+    tags:
+      - setup
+      - all
+  - name: install the latest version of nfs
+    yum: name=rpcbind state=latest
+    tags:
+      - setup
+      - all
+# Configuration tasks
+  - name: Configure for vdbench
+    service: name=rpcbind state=started
+    tags:
+      - conf
+      - all
+  - name: Configure resolvconf
+    lineinfile: dest=/etc/resolv.conf line='nameserver {{ nameserver }}' #a'
+    tags:
+      - conf
+      - all
+  - name: Create THE Folder
+    file: path="{{vdpath}}" state=directory mode=0777
+    tags:
+      - conf
+      - all
+  - name: Create THE Folder fsload
+    file: path="{{vdpath}}/fsload" state=directory mode=0777
+    tags:
+      - conf
+      - all
+  - name: Mount share (NFS)
+    mount: name="{{vdpath}}/fsload" src="{{vip2}}:{{nfs2}}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=mounted
+    tags:
+      - conf
+      - all
+  - name: Copy config
+    template: src={{vconftmp}} dest="{{vdpath}}{{vconf}}"
+    tags:
+      - conf
+      - all
+  - name: Unzip vdb to folder
+    unarchive: src={{vdarcht}} dest="{{vdpath}}"
+    tags:
+      - conf
+      - all
+# CIFS PART
+  - name: Mount share (CIFS)
+    mount: fstype="cifs"
+           opts="user=smb,pass=nexenta"
+           src="//{{vip2}}/{{mixcifs}}{{inventory_hostname}}"
+           name="{{vdpath}}fsload2"
+           state="mounted"
+    tags:
+      - cifs
+  - name: Remove entry from fstab (CIFS)
+    mount: fstype="cifs"
+           opts="user=smb,pass=nexenta"
+           src="//{{vip2}}/{{mixcifs}}{{inventory_hostname}}"
+           name="{{vdpath}}fsload2"
+           state="absent"
+    tags:
+      - cifs
+  - name: Copy config CIFS
+    template: src={{vconftmp2}} dest="{{vdpath}}{{vconf}}2"
+    tags:
+      - cifs
+# Run IO CIFS
+  - name: Run IO CIFS
+    shell: "{{vdpath}}{{vdbshell}} -f {{vdpath}}{{vconf}}2 -o /root/output2"
+    async: 4000000
+    poll: 0
+    tags:
+      - cifs
+# Run IO NFS
+  - name: Run vdbench task
+    shell: "{{vdpath}}{{vdbshell}} -f {{vdpath}}{{vconf}} -o /root/output"
+    async: 4000000
+    poll: 0
+    tags:
+      - run
+      - all

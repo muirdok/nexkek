@@ -1,0 +1,23 @@
+---
+- hosts:
+   - centos6
+   - centos7
+   - linuxmix
+   - localio
+#   - linuxmix
+#   - centos-xen
+  user: root
+  gather_facts: no
+  vars_files: 
+   - ../vdbvars.yml
+  tasks:
+   - name: check java
+#     shell: 'grep -v "[0-999].[0-999].[0-99]" /etc/fstab > /tmp/fstab && cat /tmp/fstab > /etc/fstab'
+     command: pgrep java
+     register: tail
+     ignore_errors: yes
+   - debug: var=tail.stdout_lines
+
+
+
+

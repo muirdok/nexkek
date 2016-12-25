@@ -1,0 +1,7 @@
+- name: Install unzip
+  apt: name=unzip state=latest
+- name: Install java
+  apt: name=openjdk-7-jre state=latest
+- name: Install csh
+  apt: name=csh state=latest
+

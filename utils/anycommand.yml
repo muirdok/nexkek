@@ -1,0 +1,19 @@
+---
+- hosts:
+#   - linux
+   - centos6
+   - centos7
+   - linuxmix
+   - centosxen
+#   - localio
+  user: root
+  gather_facts: no
+  vars_files: 
+   - ../vdbvars.yml
+  tasks:
+   - name: RUN {{command}}
+     shell: "{{command}}"
+     register: comm
+     ignore_errors: yes
+   - debug: var=comm.stdout_lines
+

@@ -1,0 +1,22 @@
+---
+- include_vars: "{{ vars_file }}"
+- assert:
+   that:
+    - vconf != ""
+    - vdarchz != ""
+    - vdpath != ""
+    - vdbbat != ""
+    - vdpathw != ""
+- name: Kill JAVA proccess
+  shell: "ps -W | awk '/java.exe/,NF=1' | xargs kill -f"
+  ignore_errors: yes
+- name: Create THE Folder
+  file: path="{{ vdpathw }}" state=directory mode=0777
+- name: Copy VBD config
+  template: src="../../common/templates/vdb.confw.j2" dest="{{ vdpathw }}vdb.conf" mode=0777
+- name: Copy Bat file MOUNT
+  template: src="../../common/templates/mountshare.bat.j2" dest="{{ vdpathw }}mount.bat" mode=0777
+- name: Copy Bat file to run it
+  template: src="../../common/templates/runvdb.bat.j2" dest="{{ vdpathw }}RUNME.bat" mode=0777
+- name: Unzip vdb to folder
+  unarchive: src={{vdarchz}} dest="{{vdpathw}}"

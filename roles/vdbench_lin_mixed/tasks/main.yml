@@ -1,0 +1,63 @@
+---
+- include_vars: "{{ vars_file }}"
+- assert:
+   that:
+    - vconf != ""
+    - vdarcht != ""
+    - vdpath != ""
+    - vdbshell != ""
+- name: Configure resolvconf
+  lineinfile: dest=/etc/resolv.conf line='nameserver 8.8.8.8'
+#- include: apt.yml
+#  when: ansible_pkg_mgr == 'apt'
+- include: yum.yml
+  when: ansible_pkg_mgr == 'yum'
+- name: UUUMount share (NFS) shell all
+  shell: umount -a
+  ignore_errors: yes
+- name: UUUMount share (NFS) shell fsload try 2
+  shell: umount -f -l /root/VDBench/fsload
+  ignore_errors: yes
+- name: UUUMount share (CIFS) shell VDB
+  shell: umount -f -l /root/VDBench
+  ignore_errors: yes
+- name: Delete THE Folder log
+  file: path=/root/output state=absent mode=0777
+  ignore_errors: yes
+- name: Delete THE Folder log2
+  file: path=/root/output2 state=absent mode=0777
+  ignore_errors: yes
+- name: Create THE Folder
+  file: path="{{vdpath}}" state=directory mode=0777
+- name: Create THE Folder fsload for NFS
+  file: path="{{vdpath}}fsload" state=directory mode=0777
+- name: Create THE Folder fsload for CIFS
+  file: path="{{vdpath}}fsload2" state=directory mode=0777
+- name: Mount share (NFS)
+  mount: name="{{vdpath}}fsload" src="{{vip2}}:{{mixnfs}}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=mounted
+- name: Mount share (CIFS)
+  mount: fstype="cifs"
+         opts="user=smb,pass=nexenta"
+         src="//{{vip2}}/{{mixcifs}}{{inventory_hostname}}"
+         name="{{vdpath}}fsload2"
+         state="mounted"
+  #mount: name="{{vdpath}}/fsload" src="{{vip2}}:{{nfs2}}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=mounted
+- name: Copy config NFS
+  template: src={{vconftmp}} dest="{{vdpath}}{{vconf}}"
+- name: Copy config CIFS
+  template: src={{vconftmp2}} dest="{{vdpath}}{{vconf}}2"
+- name: Unzip vdb to folder
+  unarchive: src={{vdarcht}} dest="{{vdpath}}"
+- name: Run IO NFS
+  shell: "{{vdpath}}{{vdbshell}} -f {{vdpath}}{{vconf}} -o /root/output"
+  async: 4000000
+  poll: 0
+- name: Run IO CIFS
+  shell: "{{vdpath}}{{vdbshell}} -f {{vdpath}}{{vconf}}2 -o /root/output2"
+  async: 4000000
+  poll: 0
+#- name: Remove share (FSTAB)
+#  shell: 'grep -v "[0-999].[0-999].[0-99]" /etc/fstab > /tmp/fstab && cat /tmp/fstab > /etc/fstab'
+
+
+

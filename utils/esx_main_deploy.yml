@@ -1,0 +1,160 @@
+- hosts:
+   - test
+  user: root
+  vars:
+   vcenter_hostname: 10.3.53.156
+   username: administrator
+   password: Nexenta2
+   newvmname: FPTESTVM
+   template_c65: QACentos65-tmp
+   template_c7: QACentos7-tmp
+   template_sol: QASolaris-tmp
+   template_w8: QAWin2008-tmp
+   template_w12: QAWin2012-tmp
+   template_lm: "LinuxMix-tmp"
+   resource_pool: "/Resources"
+   cluster: foo
+   datacenter: QA
+   esxname: 10.3.70.29
+   esxname2: 10.3.70.16
+  tasks:
+  - name: Deploy 10 Windows 2012 from template
+    vsphere_guest:
+      vcenter_hostname: "{{ vcenter_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      from_template: yes
+      template_src: "{{template_w12}}"
+      resource_pool: "{{ resource_pool }}"
+      cluster: "{{ cluster }}"
+      esxi:
+        datacenter: "{{ datacenter }}"
+        hostname: "{{ esxname }}"
+      guest: "Windows2012R{{ item }}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+  - name: Deploy 10 Windows 2008 from template
+    vsphere_guest:
+      vcenter_hostname: "{{ vcenter_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      from_template: yes
+      template_src: "{{template_w8}}"
+      resource_pool: "{{ resource_pool }}"
+      cluster: "{{ cluster }}"
+      esxi:
+        datacenter: "{{ datacenter }}"
+        hostname: "{{ esxname }}"
+      guest: "Windows2008R{{ item }}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+  - name: Deploy 10 Linux 65 from template
+    vsphere_guest:
+      vcenter_hostname: "{{ vcenter_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      from_template: yes
+      template_src: "{{template_c65}}"
+      resource_pool: "{{ resource_pool }}"
+      cluster: "{{ cluster }}"
+      esxi:
+        datacenter: "{{ datacenter }}"
+        hostname: "{{ esxname }}"
+      guest: "Centos65R{{ item }}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+  - name: Deploy 10 Linux 7 from template
+    vsphere_guest:
+      vcenter_hostname: "{{ vcenter_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      from_template: yes
+      template_src: "{{template_c7}}"
+      resource_pool: "{{ resource_pool }}"
+      cluster: "{{ cluster }}"
+      esxi:
+        datacenter: "{{ datacenter }}"
+        hostname: "{{ esxname }}"
+      guest: "Centos7R{{ item }}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+  - name: Deploy 10 Mixed Linux from template
+    vsphere_guest:
+      vcenter_hostname: "{{ vcenter_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      from_template: yes
+      template_src: "{{template_lm}}"
+      resource_pool: "{{ resource_pool }}"
+      cluster: "{{ cluster }}"
+      esxi:
+        datacenter: "{{ datacenter }}"
+        hostname: "{{ esxname2 }}"
+      guest: "LinuxMixedR{{ item }}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+#  - name: Deploy 5 Solaris from template
+#    vsphere_guest:
+#      vcenter_hostname: "{{ vcenter_hostname }}"
+#      username: "{{ username }}"
+#      password: "{{ password }}"
+#      from_template: yes
+#      template_src: "{{template_sol}}"
+#      resource_pool: "{{ resource_pool }}"
+#      cluster: "{{ cluster }}"
+#      esxi:
+#        datacenter: "{{ datacenter }}"
+#        hostname: "{{ esxname }}"
+#      guest: "Solaris{{ item }}"
+#    with_items:
+#      - "-vm1"
+#      - "-vm2"
+#      - "-vm3"
+#      - "-vm4"
+#      - "-vm5"
+

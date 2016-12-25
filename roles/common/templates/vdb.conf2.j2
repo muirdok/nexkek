@@ -1,0 +1,5 @@
+#config file
+fsd=fsd1,anchor={{vdpath}}fsload2/cifs,width=4,depth=4,files=64,size=16m,distribution=all
+fwd=fwd1,fsd=fsd1,rdpct=75,fileio=random,fileselect=random,threads=32,xfersize=32k
+rd=rd1,fwd=fwd1,interval=5,fwdrate=max,format=yes
+rd=rd2,fwd=fwd1,interval=5,elapsed=1080000,fwdrate=max,format=yes
