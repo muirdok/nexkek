@@ -22,6 +22,11 @@
 #      ansible-playbook deploy_vms.yml --tags "cent6,cent7"
 #
 ######################################################
+#
+#
+#
+# Deploy tasks
+######################################################
 - hosts:
    - test
   user: root
@@ -236,7 +241,12 @@
     tags:
       - clear
       - remove_cent7_local
-
+#
+#
+#
+# Remove tasks 
+#
+#############
   - name: Remove all centos 7 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -348,4 +358,120 @@
     tags:
       - clear
       - remove_win_2012
+#
+#
+#
+#  Starting tasks
+#
+#####################
+  - name: Start all centos 7 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_on
+      force: yes
+      guest: "{{template_centos7}}-nfs{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - start_all
+      - start_cent7
+  - name: Start all centos 6 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_on
+      force: yes
+      guest: "{{template_centos6}}-nfs{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - start_all
+      - start_cent6
+  - name: Start all centos 7 VMs MIX
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_on
+      force: yes
+      guest: "{{template_centos7}}-mix{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - start_all
+      - start_cent7_mix
+  - name: Start all windows 2008 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: absent
+      force: yes
+      guest: "{{template_windows2008}}{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - start_all
+      - start_win_2008
+  - name: Start all windows 2012 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_on
+      force: yes
+      guest: "{{template_windows2012}}{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - start_all
+      - start_win_2012
 
