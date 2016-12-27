@@ -1,4 +1,6 @@
 ---
+############################################
+#
 # TAGS:
 # setup - 
 # conf  - 
@@ -6,7 +8,14 @@
 # kill  - 
 # clear -
 # teardown -
+# cifs   - to run cifs io
+# check - to check javaj procceee and get log
+# EXAMPLE:
 #
+#    ansible-playbook linux_run_vdb.yml --tags "setup,conf"
+#
+##################################################
+
 - hosts:
    - linux
   user: root
@@ -104,7 +113,7 @@
       - conf
       - all
   - name: Mount share (NFS)
-    mount: name="{{vdpath}}/fsload" src="{{vip2}}:{{nfs2}}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=mounted
+    mount: name="{{vdpath}}/fsload" src="{{vip2}}:{{mountpoint}}{{pool}}{{nfs}}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=mounted
     tags:
       - conf
       - all
@@ -154,3 +163,24 @@
     tags:
       - run
       - all
+# Check java proccess 
+  - name: Check JAVA proccess
+    command: pgrep java
+    ignore_errors: yes
+    register: tail
+    tags:
+      - check
+  - debug: var=tail.stdout_lines
+    tags:
+      - check
+# Get log
+  - name: TAIL log NFS
+    command: tail -20 /root/output/logfile.html
+    ignore_errors: yes
+    register: tail
+    tags:
+      - check
+  - debug: var=tail.stdout_lines
+    tags:
+      - check
+

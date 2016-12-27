@@ -17,15 +17,16 @@
 #	remove_cent7_mix
 #	remove_win_2008
 #	remove_win_2012
-#
-# RUN: ansible-playbook deploy_vms.yml --tags "cent6,cent7"
+# EXAMPLE:
+#   
+#      ansible-playbook deploy_vms.yml --tags "cent6,cent7"
 #
 ######################################################
 - hosts:
    - test
   user: root
   vars_files:
-   - group_vars/all
+   - group_vars/all.yml
   tasks:
   - name: Deploy 10 Centos 6 VM
     vsphere_guest:
@@ -116,7 +117,7 @@
       - "-vm9"
       - "-vm10"
     tags:
-      - win2008
+      - win_2008
       - win
       - all
 
@@ -147,7 +148,7 @@
       - "-vm9"
       - "-vm10"
     tags:
-      - win2012
+      - win_2012
       - win
       - all
 
@@ -178,7 +179,7 @@
       - "-vm9"
       - "-vm10"
     tags:
-      - cent7mix
+      - cent7_mix
       - linux
       - all
 
@@ -209,7 +210,7 @@
       - "-vm9"
       - "-vm10"
     tags:
-      - cent7local
+      - cent7_local
       - linux
       - all
 

@@ -59,12 +59,15 @@ vip2: "192.168.1.2"
 vip3: "192.168.1.3"
 
 #Shares
+mountpoint: "/"
+pool: "tankz2"
+nfs: "/nfs/nfs-"
 nfs1: "/volumes/tankm1/nfs/nfs-"
 nfs2: "/volumes/tankz2/nfs/nfs-"
 nfs3: "/volumes/tank8/nfs/nfs-"
-cifs: "tankz2_cifs_cifs-"
-mixnfs: "/volumes/tankz2/mix/mix-"
-mixcifs: "tankz2_mix_mix-"
+cifs: "{{pool}}_cifs_cifs-"
+mixnfs: "/mix/mix-"
+mixcifs: "{{pool}}_mix_mix-"
 
 #
 testvolume: "kek"
