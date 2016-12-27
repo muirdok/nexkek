@@ -443,6 +443,29 @@
       - start_all
       - start_cent7_mix
 
+  - name: Start all centos 7 VMs local
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_on
+      force: yes
+      guest: "{{template_centos7}}-localio{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - start_all
+      - start_cent7_local
+
   - name: Start all windows 2008 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -565,6 +588,30 @@
     tags:
       - stop_all
       - stop_cent7_mix
+
+  - name: Stop all centos 7 VMs local
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_off
+      force: yes
+      guest: "{{template_centos7}}-localio{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - stop_all
+      - stop_cent7_local
+
 
   - name: Stop all windows 2008 VMs
     vsphere_guest:
