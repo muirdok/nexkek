@@ -486,7 +486,7 @@
 #
 ###############################################################
 
-- name: Stop all centos 7 VMs
+  - name: Stop all centos 7 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
       username: "{{username}}"
