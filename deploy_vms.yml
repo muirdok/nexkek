@@ -28,6 +28,7 @@
 # Deploy tasks
 #
 ######################################################
+---
 - hosts:
    - test
   user: root
@@ -220,6 +221,13 @@
       - linux
       - all
 
+###################################
+#
+#
+# Remove tasks 
+#
+###################################
+
   - name: Remove all centos 7 VMs localio
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -242,12 +250,6 @@
     tags:
       - clear
       - remove_cent7_local
-###################################
-#
-#
-# Remove tasks 
-#
-###################################
 
   - name: Remove all centos 7 VMs
     vsphere_guest:
@@ -271,6 +273,7 @@
     tags:
       - clear
       - remove_cent7
+
   - name: Remove all centos 6 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -316,6 +319,7 @@
     tags:
       - clear
       - remove_cent7_mix
+
   - name: Remove all windows 2008 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -338,6 +342,7 @@
     tags:
       - clear
       - remove_win_2008
+
   - name: Remove all windows 2012 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -360,6 +365,7 @@
     tags:
       - clear
       - remove_win_2012
+
 ########################################################################
 #
 #
@@ -390,6 +396,7 @@
     tags:
       - start_all
       - start_cent7
+
   - name: Start all centos 6 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -412,6 +419,7 @@
     tags:
       - start_all
       - start_cent6
+
   - name: Start all centos 7 VMs MIX
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -434,6 +442,7 @@
     tags:
       - start_all
       - start_cent7_mix
+
   - name: Start all windows 2008 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -456,6 +465,7 @@
     tags:
       - start_all
       - start_win_2008
+
   - name: Start all windows 2012 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -478,6 +488,7 @@
     tags:
       - start_all
       - start_win_2012
+
 ###############################################################
 #
 #
@@ -508,6 +519,7 @@
     tags:
       - stop_all
       - stop_cent7
+
   - name: Stop all centos 6 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -530,6 +542,7 @@
     tags:
       - stop_all
       - stop_cent6
+
   - name: Stop all centos 7 VMs MIX
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -552,6 +565,7 @@
     tags:
       - stop_all
       - stop_cent7_mix
+
   - name: Stop all windows 2008 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -574,7 +588,8 @@
     tags:
       - stop_all
       - stop_win_2008
-  - name: Start all windows 2012 VMs
+
+  - name: Stop all windows 2012 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
       username: "{{username}}"
