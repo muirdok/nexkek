@@ -2,11 +2,11 @@
 #
 # tags:
 #  deploy:
-#	cent6,cent7,cent7_mix,cent7_local
-#	win_2008,win_2012
+#   cent6,cent7,cent7_mix,cent7_local
+#   win_2008,win_2012
 #   linux - all linux vm
-#	win - all windows vm
-#	all - all VM
+#   win - all windows vm
+#   all - all VM
 #  start:
 #   start_all
 #   start_win_2008,start_win_2012,start_cent7,start_cent6,start_cent7_mix, start_cent7_local
@@ -14,8 +14,8 @@
 #   stop_all
 #   stop_win_2008,stop_win_2012,stop_cent7,stop_cent6,stop_cent7_mix,stop_cent7_local
 #  remove:
-#	clear - delete all vm
-#	remove_cent7_local,remove_cent7,remove_cent6,remove_cent7_mix,remove_win_2008,remove_win_2012
+#   clear - delete all vm
+#   remove_cent7_local,remove_cent7,remove_cent6,remove_cent7_mix,remove_win_2008,remove_win_2012
 #
 #  EXAMPLE:
 #   
