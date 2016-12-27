@@ -1,23 +1,23 @@
 ####################################################
 #
 # tags:
-#	cent6
-#	cent7
-#	cent7_mix
-#	cent7_local
-#	linux - all linux vm
-#	win_2008 
-#	win_2012
+#  deploy:
+#	cent6,cent7,cent7_mix,cent7_local
+#	win_2008,win_2012
+#   linux - all linux vm
 #	win - all windows vm
-#	all - all VM#
+#	all - all VM
+#  start:
+#   start_all
+#   start_win_2008,start_win_2012,start_cent7,start_cent6,start_cent7_mix, start_cent7_local
+#  stop:
+#   stop_all
+#   stop_win_2008,stop_win_2012,stop_cent7,stop_cent6,stop_cent7_mix,stop_cent7_local
+#  remove:
 #	clear - delete all vm
-#	remove_cent7_local
-#	remove_cent7
-#	remove_cent6
-#	remove_cent7_mix
-#	remove_win_2008
-#	remove_win_2012
-# EXAMPLE:
+#	remove_cent7_local,remove_cent7,remove_cent6,remove_cent7_mix,remove_win_2008,remove_win_2012
+#
+#  EXAMPLE:
 #   
 #      ansible-playbook deploy_vms.yml --tags "cent6,cent7"
 #
@@ -26,6 +26,7 @@
 #
 #
 # Deploy tasks
+#
 ######################################################
 - hosts:
    - test
@@ -241,12 +242,13 @@
     tags:
       - clear
       - remove_cent7_local
-#
+###################################
 #
 #
 # Remove tasks 
 #
-#############
+###################################
+
   - name: Remove all centos 7 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -358,12 +360,14 @@
     tags:
       - clear
       - remove_win_2012
-#
+########################################################################
 #
 #
 #  Starting tasks
 #
-#####################
+#
+########################################################################
+
   - name: Start all centos 7 VMs
     vsphere_guest:
       vcenter_hostname: "{{vcenter_hostname}}"
@@ -435,7 +439,7 @@
       vcenter_hostname: "{{vcenter_hostname}}"
       username: "{{username}}"
       password: "{{password}}"
-      state: absent
+      state: powered_on
       force: yes
       guest: "{{template_windows2008}}{{item}}"
     with_items:
@@ -474,4 +478,121 @@
     tags:
       - start_all
       - start_win_2012
+###############################################################
+#
+#
+#
+#  Stoppping tasks
+#
+###############################################################
 
+- name: Stop all centos 7 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_off
+      force: yes
+      guest: "{{template_centos7}}-nfs{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - stop_all
+      - stop_cent7
+  - name: Stop all centos 6 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_off
+      force: yes
+      guest: "{{template_centos6}}-nfs{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - stop_all
+      - stop_cent6
+  - name: Stop all centos 7 VMs MIX
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_off
+      force: yes
+      guest: "{{template_centos7}}-mix{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - stop_all
+      - stop_cent7_mix
+  - name: Stop all windows 2008 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_off
+      force: yes
+      guest: "{{template_windows2008}}{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - stop_all
+      - stop_win_2008
+  - name: Start all windows 2012 VMs
+    vsphere_guest:
+      vcenter_hostname: "{{vcenter_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      state: powered_off
+      force: yes
+      guest: "{{template_windows2012}}{{item}}"
+    with_items:
+      - "-vm1"
+      - "-vm2"
+      - "-vm3"
+      - "-vm4"
+      - "-vm5"
+      - "-vm6"
+      - "-vm7"
+      - "-vm8"
+      - "-vm9"
+      - "-vm10"
+    tags:
+      - stop_all
+      - stop_win_2012
