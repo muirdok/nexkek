@@ -2,13 +2,7 @@
 ############################################
 #
 # TAGS:
-# setup - 
-# conf  - 
-# run   -
-# kill  - 
-# clear -
-# teardown -
-# cifs   - to run cifs io
+# setup, conf, run, kill, clear, teardown, cifs
 # check - to check javaj procceee and get log
 # EXAMPLE:
 #
