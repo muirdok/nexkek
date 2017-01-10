@@ -3,7 +3,7 @@
 #
 # TAGS:
 # setup, conf, run, kill, clear, teardown, cifs
-# check - to check javaj procceee and get log
+# check - to check java processes and get logs
 # EXAMPLE:
 #
 #    ansible-playbook linux_run_vdb.yml --tags "setup,conf"
