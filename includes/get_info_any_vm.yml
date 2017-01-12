@@ -1,10 +1,9 @@
- - name: Stop "{{vms}}" "{{template_name}}_{{spec}}"
+ - name: Get info "{{vms}}" "{{template_name}}_{{spec}}"
    vsphere_guest:
      validate_certs: False
      vcenter_hostname: "{{vcenter_hostname}}"
      username: "{{username}}"
      password: "{{password}}"
-     state: powered_off
-     force: yes
+     vmware_guest_facts: yes
      guest: "{{template_name}}_{{spec}}{{item}}"
    with_sequence: count="{{vms}}"

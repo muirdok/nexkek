@@ -1,5 +1,6 @@
 # Usage:
 #         ansible-playbook manage_vms.yml --extra-vars "cent6=3 cent7=11 ubuntu=24" --tags "vms:deploy"
+#         ansible-playbook manage_vms.yml --extra-vars "cent6=2" --tags "get:info" -vvv
 # Avaliable:
 #    VMS: cent6 cent7 cent6mix cent7mix cent6local cent7local ubuntu ubuntumix ubuntulocal win2008 win2012
 #   tags: cooldown:remove action:start action:stop vms:deploy
@@ -101,4 +102,7 @@
   - include: includes/remove_any_vm.yml template_name={{ template_win2008 }} spec=CIFS vms={{ win2008 }}
     tags: ["cooldown","cooldown:remove"]
   - include: includes/remove_any_vm.yml template_name={{ template_win2012 }} spec=CIFS vms={{ win2012 }}
+# Get Vms info
+  - include: includes/get_info_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6 }}
+    tags: ["get","get:info"]
 

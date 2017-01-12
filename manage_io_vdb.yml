@@ -1,0 +1,12 @@
+#Plan
+#1) Install packages
+#2) Configure nfs 
+#3) Configure cifs
+#4) Configure mix
+#5) Configure windows hosts 
+#6) Run IO nfs
+#7) Run IO cifs 
+#8) Run IO mix
+#9) Kill java proccess
+##10) Clear hosts
+#
