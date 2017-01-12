@@ -8,9 +8,11 @@ template: "ns-template"
 template_vm: "Scratchy"
 template_centos6: tmp_cent6
 template_centos7: tmp_cent7
-template_windows2008: tmp_win2008
-template_windows2012: tmp_win2012
+template_win2008: tmp_win2008
+template_win2012: tmp_win2012
 template_solaris: tmp_solaris
+template_ubuntu_: tmp_ubuntu
+vms_datastore: ns_fc_m1
 resource_pool: "/Resources"
 cluster: "foo"
 datacenter: "KRD"
@@ -24,6 +26,19 @@ vm_folder: "MUTS"
 vmnet: "VM Network"
 vmnet2: "VM Network 2"
 note: "IO Drones for LargeHA"
+# VMs count
+default_count: 0
+cent6: "{{default_count}}"
+cent7: "{{default_count}}"
+cent6mix: "{{default_count}}"
+cent7mix: "{{default_count}}"
+cent6local: "{{default_count}}"
+cent7local: "{{default_count}}"
+ubuntu: "{{default_count}}"
+ubuntumix: "{{default_count}}"
+ubuntulocal: "{{default_count}}"
+win2008: "{{default_count}}"
+win2012: "{{default_count}}"
 # other
 nameserver: "192.168.1.150"
 

@@ -1,0 +1,10 @@
+ - name: Remove "{{vms}}" "{{template_name}}_{{spec}}"
+   vsphere_guest:
+     validate_certs: False
+     vcenter_hostname: "{{vcenter_hostname}}"
+     username: "{{username}}"
+     password: "{{password}}"
+     state: absent
+     force: yes
+     guest: "{{template_name}}_{{spec}}{{item}}"
+   with_sequence: count="{{vms}}"

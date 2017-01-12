@@ -1,0 +1,7 @@
+---
+- hosts:
+   - localio
+#   - centosxen
+  user: root
+  roles:
+   - {role: vdbench_lin_local, "vars_file": "vdbvars.yml"}
