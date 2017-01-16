@@ -1,12 +1,49 @@
-#Plan
-#1) Install packages
-#2) Configure nfs 
-#3) Configure cifs
-#4) Configure mix
-#5) Configure windows hosts 
-#6) Run IO nfs
-#7) Run IO cifs 
-#8) Run IO mix
-#9) Kill java proccess
-##10) Clear hosts
+---
+- hosts:
+   - cent6nfs 
+   - cent7nfs
+   - cent6cifs
+   - cent7cifs
+   - cent6mix 
+   - cent7mix 
+   - cent6local 
+   - cent7local 
+   - ubuntunfs
+   - ubuntucifs
+   - ubuntumix 
+   - ubuntulocal 
+   - win2008 
+   - win2012
+  gather_facts: yes
+  ignore_errors: yes
+  user: root
+  vars_files:
+   - group_vars/all.yml
+  tasks:
 #
+# Setup tasks
+  - include: includes/setup_linux.yml
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+    tags: ["setup","setup:install"]
+# Clear Tasks
+  - include: includes/clear_linux.yml
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
+    tags: ["setup","setup:clear"]
+
+# Configuration tasks
+  - include: includes/linux_conf_nfs.yml
+    when: inventory_hostname in groups.cent6nfs or inventory_hostname in groups.cent7nfs or 
+          inventory_hostname in groups.ubuntunfs 
+    tags: ["configure","configure:linux","configure:linux:nfs"]
+  - include: includes/linux_conf_cifs.yml
+    when: inventory_hostname in groups.cent6cifs or inventory_hostname in groups.cent7cifs or
+          inventory_hostname in groups.ubuntucifs
+    tags: ["configure","configure:linux","configure:linux:cifs"]
+  - include: includes/linux_conf_local.yml
+    when: inventory_hostname in groups.cent6local or inventory_hostname in groups.cent7local or
+          inventory_hostname in groups.ubuntulocal
+    tags: ["configure","configure:linux","configure:linux:local"]
+  - include: includes/linux_conf_mix.yml
+    when: inventory_hostname in groups.cent6mix or inventory_hostname in groups.cent7mix or
+          inventory_hostname in groups.ubuntumix
+    tags: ["configure","configure:linux","configure:linux:mix"]

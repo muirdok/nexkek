@@ -1,0 +1,27 @@
+- name: Kill all java proccess
+  command: pkill -HUP java
+- name: Umount share (NFS) shell fsload
+  shell: umount -f -l "{{ vd_target_nfs}}"
+- name: Umount share (CIFS) shell fsload
+  shell: umount -f -l "{{ vd_target_cifs}}"
+- name: Umount all others shares 
+  shell: umount -a
+- name: Delete the vdbench folder
+  file: path="{{ vdb_folder_path }}" state=absent mode=0777
+- name: Remove entry from fstab (CIFS)
+  mount: fstype="cifs"
+  mount: fstype="cifs"
+         opts="user={{ cifs_user }},pass={{ cifs_passwd }}"
+         src="//{{ share_ip }}/{{ cifs_share }}{{inventory_hostname}}"
+         name="{{ vd_target_cifs }}"
+         state="absent"
+- name: Remove entry from fstab (CIFS-MIX)
+  mount: fstype="cifs"
+         opts="user={{ cifs_user }},pass={{ cifs_passwd }}"
+         src="//{{ share_ip }}/{{ mix_cifs_share }}{{inventory_hostname}}"
+         name="{{ vd_target_cifs }}"
+         state="absent"
+- name: Umount share"{{ vd_target_nfs }}" for NFS load and remove fstab record
+  mount: name="{{ vd_target_nfs }}" src="{{ share_ip }}:{{ nfs_share }}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=absent
+- name: Umount share (NFS) "{{ share_ip }}:{{ mix_nfs_share }}{{inventory_hostname}}" and remove fstab record
+  mount: name="{{ vd_target_nfs }}" src="{{ share_ip }}:{{ mix_nfs_share }}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=absent

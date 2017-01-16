@@ -1,0 +1,22 @@
+- name: Create THE Folder "{{ vdb_folder_path }}"
+  file: path="{{ vdb_folder_path }}" state=directory mode=0777
+- name: Create THE Folder "{{ vd_target_cifs }}" for CIFS-MIX
+  file: path="{{ vd_target_cifs }}" state=directory mode=0777
+- name: Create THE Folder {{ vd_target_nfs }} forn NFS-MIX
+  file: path="{{ vd_target_nfs }}" state=directory mode=0777
+- name: Mount share (CIFS) "//{{ share_ip }}/{{ mix_cifs_share }}{{inventory_hostname}}"
+  mount: fstype="cifs"
+         opts="user={{ cifs_user }},pass={{ cifs_passwd }}"
+         src="//{{ share_ip }}/{{ mix_cifs_share }}{{inventory_hostname}}"
+         name="{{ vd_target_cifs }}"
+         state="mounted"
+- name: Mount share (NFS) "{{ share_ip }}:{{ mix_nfs_share }}{{inventory_hostname}}"
+  mount: name="{{ vd_target_nfs }}" src="{{ share_ip }}:{{ mix_nfs_share }}{{inventory_hostname}}" fstype=nfs opts="rw,sync" state=mounted
+- name: Unzip VDBENCH to "{{ vdb_folder_path }}"
+  unarchive: src="{{ vdbench_zip }}" dest="{{ vdb_folder_path }}"
+- name: Copy config to "{{ vdb_folder_path }}/{{ vdbench_config_mix_nfs }} with anchor is "{{ anchor }}"
+  template: src="{{ vdbench_config_tmp }}" dest="{{ vdb_folder_path }}/{{ vdbench_config_mix_nfs }}"
+- set_fact:
+     anchor: "{{ vd_target_cifs }}"
+- name: Copy vdbench config to "{{ vdb_folder_path }}/{{ vdbench_config }} with anchor is {{ anchor }}"
+  template: src="{{ vdbench_config_tmp }}" dest="{{ vdb_folder_path }}/{{ vdbench_config_mix_nfs }}"

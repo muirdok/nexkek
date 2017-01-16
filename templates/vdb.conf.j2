@@ -1,0 +1,5 @@
+#config file
+fsd=fsd1,anchor={{ anchor }},width={{ width }},depth={{ depth }},files={{ files }},size={{ size }},distribution=all
+fwd=fwd1,fsd=fsd1,rdpct=75,fileio=random,fileselect=random,threads=32,xfersize=32k
+rd=rd1,fwd=fwd1,interval=5,fwdrate=max,format=yes
+rd=rd2,fwd=fwd1,interval=5,elapsed=108000000,fwdrate=max,format=yes

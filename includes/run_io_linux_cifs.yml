@@ -1,0 +1,4 @@
+- name: Run IO CIFS
+  shell: "{{vdpath}}{{vdbshell}} -f {{vdpath}}{{vconf}}2 -o /root/output2"
+  async: 4000000
+  poll: 0

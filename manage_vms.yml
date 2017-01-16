@@ -2,7 +2,8 @@
 #         ansible-playbook manage_vms.yml --extra-vars "cent6=3 cent7=11 ubuntu=24" --tags "vms:deploy"
 #         ansible-playbook manage_vms.yml --extra-vars "cent6=2" --tags "get:info" -vvv
 # Avaliable:
-#    VMS: cent6 cent7 cent6mix cent7mix cent6local cent7local ubuntu ubuntumix ubuntulocal win2008 win2012
+#    VMS: cent6nfs cent7nfs centos6cifs centos7cifs cent6mix cent7mix cent6local cent7local 
+#         ubuntunfs ubuntucifs ubuntumix ubuntulocal win2008 win2012
 #   tags: cooldown:remove action:start action:stop vms:deploy
 ###
 ---
@@ -15,9 +16,13 @@
    - group_vars/all.yml
   tasks:
 # Deploy tasks
-  - include: includes/deploy_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6 }}
+  - include: includes/deploy_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6nfs }}
     tags: ["vms","vms:deploy"]
-  - include: includes/deploy_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7 }}
+  - include: includes/deploy_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7nfs }}
+    tags: ["vms","vms:deploy"]
+  - include: includes/deploy_any_vm.yml template_name={{ template_centos6 }} spec=CIFS vms={{ cent6cifs }}
+    tags: ["vms","vms:deploy"]
+  - include: includes/deploy_any_vm.yml template_name={{ template_centos7 }} spec=CIFS vms={{ cent7cifs }}
     tags: ["vms","vms:deploy"]
   - include: includes/deploy_any_vm.yml template_name={{ template_centos6 }} spec=MIX vms={{ cent6mix }}
     tags: ["vms","vms:deploy"]
@@ -27,7 +32,9 @@
     tags: ["vms","vms:deploy"]
   - include: includes/deploy_any_vm.yml template_name={{ template_centos7 }} spec=LOCAL vms={{ cent7local }}
     tags: ["vms","vms:deploy"]
-  - include: includes/deploy_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntu }}
+  - include: includes/deploy_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntunfs }}
+    tags: ["vms","vms:deploy"]
+  - include: includes/deploy_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntucifs }}
     tags: ["vms","vms:deploy"]
   - include: includes/deploy_any_vm.yml template_name={{ template_ubuntu_ }} spec=MIX vms={{ ubuntumix }}
     tags: ["vms","vms:deploy"]
@@ -36,10 +43,15 @@
   - include: includes/deploy_any_vm.yml template_name={{ template_win2008 }} spec=CIFS vms={{ win2008 }}
     tags: ["vms","vms:deploy"]
   - include: includes/deploy_any_vm.yml template_name={{ template_win2012 }} spec=CIFS vms={{ win2012 }}
+    tags: ["vms","vms:deploy"]
 # Start tasks
-  - include: includes/start_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6 }}
+  - include: includes/start_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6nfs }}
     tags: ["action","action:start"]
-  - include: includes/start_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7 }}
+  - include: includes/start_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7nfs }}
+    tags: ["action","action:start"]
+  - include: includes/start_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6cifs }}
+    tags: ["action","action:start"]
+  - include: includes/start_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ centc7ifs }}
     tags: ["action","action:start"]
   - include: includes/start_any_vm.yml template_name={{ template_centos6 }} spec=MIX vms={{ cent6mix }}
     tags: ["action","action:start"]
@@ -49,7 +61,9 @@
     tags: ["action","action:start"]
   - include: includes/start_any_vm.yml template_name={{ template_centos7 }} spec=LOCAL vms={{ cent7local }}
     tags: ["action","action:start"]
-  - include: includes/start_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntu }}
+  - include: includes/start_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntunfs }}
+    tags: ["action","action:start"]
+  - include: includes/start_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntucifs }}
     tags: ["action","action:start"]
   - include: includes/start_any_vm.yml template_name={{ template_ubuntu_ }} spec=MIX vms={{ ubuntumix }}
     tags: ["action","action:start"]
@@ -58,10 +72,15 @@
   - include: includes/start_any_vm.yml template_name={{ template_win2008 }} spec=CIFS vms={{ win2008 }}
     tags: ["action","action:start"]
   - include: includes/start_any_vm.yml template_name={{ template_win2012 }} spec=CIFS vms={{ win2012 }}
+    tags: ["action","action:start"]
 # Stop tasks
-  - include: includes/stop_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6 }}
+  - include: includes/stop_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6nfs }}
     tags: ["action","action:stop"]
-  - include: includes/stop_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7 }}
+  - include: includes/stop_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7nfs }}
+    tags: ["action","action:stop"]
+  - include: includes/stop_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6cifs }}
+    tags: ["action","action:stop"]
+  - include: includes/stop_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7cifs }}
     tags: ["action","action:stop"]
   - include: includes/stop_any_vm.yml template_name={{ template_centos6 }} spec=MIX vms={{ cent6mix }}
     tags: ["action","action:stop"]
@@ -71,7 +90,9 @@
     tags: ["action","action:stop"]
   - include: includes/stop_any_vm.yml template_name={{ template_centos7 }} spec=LOCAL vms={{ cent7local }}
     tags: ["action","action:stop"]
-  - include: includes/stop_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntu }}
+  - include: includes/stop_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntunfs }}
+    tags: ["action","action:stop"]
+  - include: includes/stop_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntucifs }}
     tags: ["action","action:stop"]
   - include: includes/stop_any_vm.yml template_name={{ template_ubuntu_ }} spec=MIX vms={{ ubuntumix }}
     tags: ["action","action:stop"]
@@ -80,10 +101,15 @@
   - include: includes/stop_any_vm.yml template_name={{ template_win2008 }} spec=CIFS vms={{ win2008 }}
     tags: ["action","action:stop"]
   - include: includes/stop_any_vm.yml template_name={{ template_win2012 }} spec=CIFS vms={{ win2012 }}
+    tags: ["action","action:stop"]
 # Remove tasks
-  - include: includes/remove_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6 }}
+  - include: includes/remove_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6nfs }}
     tags: ["cooldown","cooldown:remove"]
-  - include: includes/remove_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7 }}
+  - include: includes/remove_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7nfs }}
+    tags: ["cooldown","cooldown:remove"]
+  - include: includes/remove_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6cifs }}
+    tags: ["cooldown","cooldown:remove"]
+  - include: includes/remove_any_vm.yml template_name={{ template_centos7 }} spec=NFS vms={{ cent7cifs }}
     tags: ["cooldown","cooldown:remove"]
   - include: includes/remove_any_vm.yml template_name={{ template_centos6 }} spec=MIX vms={{ cent6mix }}
     tags: ["cooldown","cooldown:remove"]
@@ -93,7 +119,9 @@
     tags: ["cooldown","cooldown:remove"]
   - include: includes/remove_any_vm.yml template_name={{ template_centos7 }} spec=LOCAL vms={{ cent7local }}
     tags: ["cooldown","cooldown:remove"]
-  - include: includes/remove_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntu }}
+  - include: includes/remove_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntunfs }}
+    tags: ["cooldown","cooldown:remove"]
+  - include: includes/remove_any_vm.yml template_name={{ template_ubuntu_ }} spec=NFS vms={{ ubuntucifs }}
     tags: ["cooldown","cooldown:remove"]
   - include: includes/remove_any_vm.yml template_name={{ template_ubuntu_ }} spec=MIX vms={{ ubuntumix }}
     tags: ["cooldown","cooldown:remove"]
@@ -102,7 +130,8 @@
   - include: includes/remove_any_vm.yml template_name={{ template_win2008 }} spec=CIFS vms={{ win2008 }}
     tags: ["cooldown","cooldown:remove"]
   - include: includes/remove_any_vm.yml template_name={{ template_win2012 }} spec=CIFS vms={{ win2012 }}
+    tags: ["cooldown","cooldown:remove"]
 # Get Vms info
-  - include: includes/get_info_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6 }}
+  - include: includes/get_info_any_vm.yml template_name={{ template_centos6 }} spec=NFS vms={{ cent6nfs }}
     tags: ["get","get:info"]
 

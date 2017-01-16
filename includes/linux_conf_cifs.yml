@@ -1,0 +1,16 @@
+- name: Create THE Folder "{{ vdb_folder_path }}"
+  file: path="{{ vdb_folder_path }}" state=directory mode=0777
+- name: Create THE Folder "{{ vd_target_cifs }}" for CIFS load
+  file: path="{{ vd_target_cifs }}" state=directory mode=0777
+- name: Mount share (CIFS) "//{{ share_ip }}/{{ cifs_share }}{{inventory_hostname}}"
+  mount: fstype="cifs"
+         opts="user={{ cifs_user }},pass={{ cifs_passwd }}"
+         src="//{{ share_ip }}/{{ cifs_share }}{{inventory_hostname}}"
+         name="{{ vd_target_cifs }}"
+         state="mounted"
+- name: Unzip VDBENCH to "{{ vdb_folder_path }}"
+  unarchive: src="{{ vdbench_zip }}" dest="{{ vdb_folder_path }}"
+- set_fact:
+     anchor: "{{ vd_target_cifs }}"
+- name: Copy vdbench config to "{{ vdb_folder_path }}/{{ vdbench_config }} with anchor is "{{ vd_target_cifs }}"
+  template: src="{{ vdbench_config_tmp }}" dest="{{ vdb_folder_path }}/{{ vdbench_config }}"
