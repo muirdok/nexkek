@@ -1,0 +1,4 @@
+- name: Run vdbench task
+  shell: "{{ vdb_folder_path }}{{ vdbshell }} -f {{ vdb_folder_path }}/{{ vdbench_config }} -o {{ vdb_output }}"
+  async: 4000000
+  poll: 0

@@ -68,11 +68,14 @@ dstpathwin: "/cygdrive/x"
 #
 vd_target_nfs: "{{ vdb_folder_path  }}/fsload"
 vd_target_cifs: "{{ vdb_folder_path }}/fsload2"
-vd_target_local: "{{ vvdb_folder_path }}/fsload3"
+vd_target_local: "{{ vdb_folder_path }}/fsload3"
 
 #Scripts
 vdbshell: "vdbench.bash"
 vdbbat: "vdbench.bat"
+vdb_output: "/root/output"
+vdb_output2: "/root/output2"
+
 
 #IPs
 vip1: "192.168.1.1"

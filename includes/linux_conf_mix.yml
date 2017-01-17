@@ -19,4 +19,4 @@
 - set_fact:
      anchor: "{{ vd_target_cifs }}"
 - name: Copy vdbench config to "{{ vdb_folder_path }}/{{ vdbench_config }} with anchor is {{ anchor }}"
-  template: src="{{ vdbench_config_tmp }}" dest="{{ vdb_folder_path }}/{{ vdbench_config_mix_nfs }}"
+  template: src="{{ vdbench_config_tmp }}" dest="{{ vdb_folder_path }}/{{ vdbench_config_mix_cifs }}"

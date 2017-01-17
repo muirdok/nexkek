@@ -1,10 +1,10 @@
 - name: Create THE Folder "{{ vdb_folder_path }}" for LOCAL IO
   file: path="{{ vdb_folder_path }}" state=directory mode=0777
 - name: Create THE Folder "{{ vd_target_local }}"
-  file: path="{{ vd_target_cifs }}" state=directory mode=0777
+  file: path="{{ vd_target_local }}" state=directory mode=0777
 - name: Unzip VDBENCH to "{{ vdb_folder_path }}"
   unarchive: src="{{ vdbench_zip }}" dest="{{ vdb_folder_path }}"
 - set_fact:
      anchor: "{{ vd_target_local }}"
-- name: Copy vdbench config to "{{ vdb_folder_path }}/{{ vdbench_config }} with anchor is "{{ vd_target_cifs }}"
+- name: Copy vdbench config to "{{ vdb_folder_path }}/{{ vdbench_config }} with anchor is "{{ vd_target_local }}"
   template: src="{{ vdbench_config_tmp }}" dest="{{ vdb_folder_path }}/{{ vdbench_config }}"

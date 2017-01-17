@@ -1,0 +1,5 @@
+- name: Check JAVA proccess
+  command: pgrep java
+  ignore_errors: yes
+  register: tail
+- debug: var=tail.stdout_lines

@@ -29,7 +29,6 @@
   - include: includes/clear_linux.yml
     when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'CentOS'
     tags: ["setup","setup:clear"]
-
 # Configuration tasks
   - include: includes/linux_conf_nfs.yml
     when: inventory_hostname in groups.cent6nfs or inventory_hostname in groups.cent7nfs or 
@@ -47,3 +46,55 @@
     when: inventory_hostname in groups.cent6mix or inventory_hostname in groups.cent7mix or
           inventory_hostname in groups.ubuntumix
     tags: ["configure","configure:linux","configure:linux:mix"]
+# Run IO tasks
+  - include: includes/io_start.yml
+    when: inventory_hostname in groups.cent6nfs or inventory_hostname in groups.cent7nfs or
+          inventory_hostname in groups.ubuntunfs
+    tags: ["io","io:start","io:start:nfs"]
+  - include: includes/io_start.yml
+    when: inventory_hostname in groups.cent6cifs or inventory_hostname in groups.cent7cifs or
+          inventory_hostname in groups.ubuntucifs
+    tags: ["io","io:start","io:start:cifs"]
+  - include: includes/io_start.yml
+    when: inventory_hostname in groups.cent6local or inventory_hostname in groups.cent7local or
+          inventory_hostname in groups.ubuntulocal
+    tags: ["io","io:start","io:start:local"]
+  - include: includes/io_start_mix.yml
+    when: inventory_hostname in groups.cent6mix or inventory_hostname in groups.cent7mix or
+          inventory_hostname in groups.ubuntumix
+    tags: ["io","io:start","io:start:mix"]
+# Stop IO tasks
+  - include: includes/io_stop.yml
+    when: inventory_hostname in groups.cent6nfs or inventory_hostname in groups.cent7nfs or
+          inventory_hostname in groups.ubuntunfs
+    tags: ["io","io:stop","io:stop:nfs"]
+  - include: includes/io_stop.yml
+    when: inventory_hostname in groups.cent6cifs or inventory_hostname in groups.cent7cifs or
+          inventory_hostname in groups.ubuntucifs
+    tags: ["io","io:stop","io:stop:cifs"]
+  - include: includes/io_stop.yml
+    when: inventory_hostname in groups.cent6local or inventory_hostname in groups.cent7local or
+          inventory_hostname in groups.ubuntulocal
+    tags: ["io","io:stop","io:stop:local"]
+  - include: includes/io_stop.yml
+    when: inventory_hostname in groups.cent6mix or inventory_hostname in groups.cent7mix or
+          inventory_hostname in groups.ubuntumix
+    tags: ["io","io:stop","io:stop:mix"]
+# Check IO tasks
+  - include: includes/io_check.yml
+    when: inventory_hostname in groups.cent6nfs or inventory_hostname in groups.cent7nfs or
+          inventory_hostname in groups.ubuntunfs
+    tags: ["io","io:check","io:check:nfs"]
+  - include: includes/io_check.yml
+    when: inventory_hostname in groups.cent6cifs or inventory_hostname in groups.cent7cifs or
+          inventory_hostname in groups.ubuntucifs
+    tags: ["io","io:check","io:check:cifs"]
+  - include: includes/io_check.yml
+    when: inventory_hostname in groups.cent6local or inventory_hostname in groups.cent7local or
+          inventory_hostname in groups.ubuntulocal
+    tags: ["io","io:check","io:check:local"]
+  - include: includes/io_check.yml
+    when: inventory_hostname in groups.cent6mix or inventory_hostname in groups.cent7mix or
+          inventory_hostname in groups.ubuntumix
+    tags: ["io","io:check","io:check:mix"]
+

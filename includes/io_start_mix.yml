@@ -1,0 +1,9 @@
+- name: Run vdbench task for "{{ vdbench_config_mix_nfs }}"
+  shell: "{{ vdb_folder_path }}{{ vdbshell }} -f {{ vdb_folder_path }}/{{ vdbench_config_mix_nfs }} -o {{ vdb_output }}"
+  async: 4000000
+  poll: 0
+- name: Run vdbench task for "{{ vdbench_config_mix_cifs }}"
+  shell: "{{ vdb_folder_path }}{{ vdbshell }} -f {{ vdb_folder_path }}/{{ vdbench_config_mix_cifs }} -o {{ vdb_output2 }}"
+  async: 4000000
+  poll: 0
+
