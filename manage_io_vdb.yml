@@ -1,3 +1,11 @@
+# Usage:
+#	ansible-playbook manage_io_vdb.yml --tags "setup:install" 
+#       ansible-playbook manage_io_vdb.yml --tags "io:start" 
+# Avaliable:
+#   tags: setup:install configure:linux:nfs configure:linux:cifs configure:linux:mix configure:linux:local
+#	io:start:nfs io:start:cifs io:start:mix io:start:local io:stop io:check
+###
+
 ---
 - hosts:
    - cent6nfs 
